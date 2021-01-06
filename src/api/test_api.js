@@ -1,9 +1,0 @@
-import request from '@/utils/request'
-
-export function get_test(params) {
-  return request({
-    url: '/login',
-    method: 'get',
-    params
-  })
-}
