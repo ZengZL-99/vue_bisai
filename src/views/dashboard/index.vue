@@ -1,18 +1,24 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎您: {{ name }}</div>
+    <button @click="get_test">测试</button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { test } from '@/api/user'
 export default {
   name: 'Dashboard',
   computed: {
     ...mapGetters([
       'name'
     ])
+  },
+  methods: {
+    get_test(){
+      test()
+    }
   }
 }
 </script>

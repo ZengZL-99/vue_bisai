@@ -1,7 +1,8 @@
-import request from '@/utils/request'
+// import request from '@/utils/request'
+import { service , devService} from '@/utils/request'
 
 export function login(data) {
-  return request({
+  return service({
     url: '/vue-admin-template/user/login',
     method: 'post',
     data
@@ -9,7 +10,7 @@ export function login(data) {
 }
 
 export function getInfo(token) {
-  return request({
+  return service({
     url: '/vue-admin-template/user/info',
     method: 'get',
     params: { token }
@@ -17,8 +18,19 @@ export function getInfo(token) {
 }
 
 export function logout() {
-  return request({
+  return service({
     url: '/vue-admin-template/user/logout',
     method: 'post'
+  })
+}
+
+
+// 测试自己的api
+
+export function test(token) {
+  return devService({
+    url: '/login',
+    method: 'post',
+    params: { token }
   })
 }
