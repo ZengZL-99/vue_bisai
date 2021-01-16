@@ -1,5 +1,5 @@
 // import request from '@/utils/request'
-import { service , devService} from '@/utils/request'
+import { service, devService } from '@/utils/request'
 
 export function login(data) {
   return devService({
@@ -24,7 +24,6 @@ export function logout() {
     method: 'post'
   })
 }
-
 
 // 测试自己的api
 

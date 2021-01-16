@@ -1,28 +1,49 @@
 <template>
-  <div>
+  <div class="toubu">
+    <div class="block">
+      <span class="demonstration">查询信息</span>
+      <el-cascader
+        v-model="values"
+        :options="options"
+        :props="props"
+        collapse-tags
+        clearable
+        placeholder
+        separator=">>>"
+      />
+    </div>
     <el-button type="primary" @click="handleSelect">查询</el-button>
   </div>
 </template>
 
 <script>
-import { get_mt_info } from '@/api/select'
+import { getMtInfo } from '@/api/select'
 export default {
-  data(){
+  data() {
     return {
-      data: []
+      values: null,
+      options: [],
+      props: { expandTrigger: 'hover', multiple: true }
     }
   },
+  created() {
+    getMtInfo().then(res => {
+      this.options = res.data
+    })
+  },
   methods: {
-    handleSelect(){
-      get_mt_info().then(response => {
-          
+    handleSelect() {
+      getMtInfo().then(res => {
+        console.log(res.data)
       })
     }
-  } 
+  }
 }
 </script>
 
-
 <style scoped>
-
+.toubu {
+  margin: 100px auto;
+  text-align: center;
+}
 </style>

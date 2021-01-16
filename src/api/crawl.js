@@ -1,8 +1,8 @@
 import { devService } from '@/utils/request'
 
-export function getMtInfo(token) {
+export function get_categories(token) {
   return devService({
-    url: '/area_data',
+    url: '/categories_data',
     method: 'get',
     params: { token }
   })

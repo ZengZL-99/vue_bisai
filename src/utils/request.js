@@ -26,7 +26,6 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
-      console.log("token", getToken());
     }
     return config
   },
@@ -37,7 +36,7 @@ service.interceptors.request.use(
   }
 )
 
-// devService 
+// devService
 devService.interceptors.request.use(
   config => {
     // do something before request is sent
@@ -47,7 +46,7 @@ devService.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
-      console.log("getToken", getToken());
+      console.log('getToken', getToken())
     }
     return config
   },
@@ -56,7 +55,7 @@ devService.interceptors.request.use(
     console.log(error) // for debug
     return Promise.reject(error)
   }
-) 
+)
 
 // response interceptor
 service.interceptors.response.use(
@@ -74,7 +73,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    console.log("res.code !== 20000", res.code !== 20000);
+    console.log('res.code !== 20000', res.code !== 20000)
     if (res.code !== 20000) {
       Message({
         message: res.message || 'Error',
@@ -111,7 +110,7 @@ service.interceptors.response.use(
   }
 )
 
-// devService 
+// devService
 devService.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
@@ -164,4 +163,4 @@ devService.interceptors.response.use(
   }
 )
 
-export { service , devService}
+export { service, devService }
