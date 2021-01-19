@@ -11,6 +11,7 @@
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
+    /*background-color: red;*/
     height: 100%;
     position: fixed;
     font-size: 0px;
@@ -73,20 +74,23 @@
     .el-submenu__title {
       &:hover {
         background-color: $menuHover !important;
+        /*background-color: pink !important;*/
       }
     }
 
     .is-active>.el-submenu__title {
       color: $subMenuActiveText !important;
+      /*color: red !important;*/
     }
 
     & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
       background-color: $subMenuBg !important;
-
+      /*  background-color: royalblue !important;*/
       &:hover {
-        background-color: $subMenuHover !important;
+        background-color: $subMenuHover !important; 
+        /*background-color: rgb(32, 221, 174) !important;*/
       }
     }
   }

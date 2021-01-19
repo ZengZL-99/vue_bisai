@@ -12,8 +12,6 @@
         @change="handleChange"
       />
     </div>
-    <button @click="handelCategories">查询</button>
-    <el-button type="primary" round @click="handleValues">查看values</el-button>
   </div>
 </template>
 
@@ -28,16 +26,12 @@ export default {
       values: null
     }
   },
+  created() {
+    get_categories().then(res => {
+      this.options = res.data
+    })
+  },
   methods: {
-    handelCategories() {
-      get_categories().then(res => {
-        console.log('res???', res.data)
-        this.options = res.data
-      })
-    },
-    handleValues() {
-      console.log('values', this.values)
-    },
     handleChange(value) {
       console.log(value)
     }

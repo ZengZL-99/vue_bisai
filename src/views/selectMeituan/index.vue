@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getMtInfo } from '@/api/select'
+import { getMtInfo, getMtData } from '@/api/select'
 export default {
   data() {
     return {
@@ -33,8 +33,13 @@ export default {
   },
   methods: {
     handleSelect() {
-      getMtInfo().then(res => {
-        console.log(res.data)
+      const selectList = []
+      for (let i = 0; i < this.values.length; i++) {
+        selectList.push(this.values[i][1])
+      }
+      console.log('列表', selectList)
+      getMtData(selectList).then(res => {
+        console.log(res)
       })
     }
   }
