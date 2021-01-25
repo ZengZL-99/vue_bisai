@@ -1,4 +1,4 @@
-require('echarts/extension/bmap/bmap')
+const BMap = require('echarts/extension/bmap/bmap')
 
 export function loadBMap(ak) {
   return new Promise(function(resolve, reject) {

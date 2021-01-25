@@ -46,6 +46,11 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals: {
+      'BMap': 'BMap',
+      // eslint-disable-next-line no-mixed-spaces-and-tabs
+      'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT'
     }
   },
   chainWebpack(config) {
