@@ -85,6 +85,32 @@ export const constantRoutes = [
         name: 'SelectMeituan',
         component: () => import('@/views/selectMeituan/index'),
         meta: { title: '信息查询', icon: 'tree' }
+      },
+      {
+        path: 'visualMeituan',
+        name: 'visualMeituan',
+        component: () => import('@/views/visualMeituan/index'),
+        meta: { title: '可视化', icon: 'tree' },
+        children: [
+          {
+            path: 'common',
+            name: 'common',
+            component: () => import('@/views/visualMeituan/commonMeituan/index'),
+            meta: { title: '普通可视化', icon: 'tree' }
+          },
+          {
+            path: 'hotspot',
+            name: 'hotspot',
+            component: () => import('@/views/visualMeituan/hotspotmapMeituan/index'),
+            meta: { title: '热点图可视化', icon: 'tree' }
+          },
+          {
+            path: 'businessModel',
+            name: 'businessModel',
+            component: () => import('@/views/visualMeituan/businessModel/index'),
+            meta: { title: '商家画像', icon: 'tree' }
+          }
+        ]
       }
     ]
   },
