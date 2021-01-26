@@ -15,3 +15,11 @@ export function get_json(token) {
     params: { token }
   })
 }
+
+export function beijing(token) {
+  return devService({
+    url: '/beijing',
+    method: 'get',
+    params: { token }
+  })
+}

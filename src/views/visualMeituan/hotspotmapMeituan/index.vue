@@ -1,15 +1,13 @@
 <template>
-  <div>
+  <div class="spatialSampling">
     <el-button type="primary" @click="handleClick">主要按钮</el-button>
-    <div ref="chart" style="width: 600px;height:400px;" />
-    <div ref="chartmap" style="width: 600px;height:400px;" />
+    <div id="map_container" />
   </div>
 </template>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GYqucKgQD6kmLmICzoglATNBV3RITmqq"></script>
 <script>
-import { getinfo } from '@/api/visualMeituan'
+import { getinfo, beijing } from '@/api/visualMeituan'
 import 'echarts/extension/bmap/bmap'
-import { loadBMap }  from '@/components/baidu/map'
+import { getInfo } from '@/api/user'
 
 export default {
   name: 'HotspotmapMeituan',
@@ -20,102 +18,69 @@ export default {
   },
   created() {
     this.handleClick()
-    console.log("created", this.points);
   },
   mounted() {
-    this.drawChart()
-    console.log('运行mounted')
-    loadBMap("GYqucKgQD6kmLmICzoglATNBV3RITmqq").then(() => {
-       // 配置option
-      this.drawMap()
-		})
+    var map = initMap()
+
+    var point = new BMapGL.Point(113.387456, 23.000406)
+    map.centerAndZoom(point, 12)
+
+    var view = new mapvgl.View({
+      map: map
+    })
+
+    getinfo().then(res => {
+      // res = res.result.data[0].bound
+      res = res.info.result.data[0].bound
+      var data = []
+      for (var i = 0; i < res.length; i++) {
+        var item = res[i]
+        data.push({
+          geometry: {
+            type: 'Point',
+            coordinates: [item[0], item[1]]
+          },
+          properties: {
+            count: item[2]
+          }
+        })
+      }
+      console.log('data:', data)
+      var heatmap = new mapvgl.HeatmapLayer({
+        size: 300, // 单个点绘制大小
+        max: 40, // 最大阈值
+        height: 0, // 最大高度，默认为0
+        unit: 'm', // 单位，m:米，px: 像素
+        gradient: { // 对应比例渐变色
+          0.25: 'rgba(0, 0, 255, 1)',
+          0.55: 'rgba(0, 255, 0, 1)',
+          0.85: 'rgba(255, 255, 0, 1)',
+          1: 'rgba(255, 0, 0, 1)'
+        }
+      })
+      view.addLayer(heatmap)
+      heatmap.setData(data)
+      console.log('绘制完成')
+    })
   },
   methods: {
     handleClick() {
       getinfo().then(res => {
-        // this.points = res.data
-        console.log("handleClick之前", this.points);
-        this.points = [].concat.apply([], res.data.map(track => {
-          //console.log('wwwwwpoints', res.data)
-          return track.map(seg => {
-            //console.log('seg.coord.concat', seg.coord.concat[1])
-            return seg.coord.concat([1])
-          })
-        }/*
-         for (let i = 0; i < res.data.length; i++) {
-          this.points.push(res.data[i])
-        }*/
-        ))
-        console.log("handleClick之后", this.points);
+        this.points = res.data
       })
-    },
-    drawChart() {
-      // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(this.$refs.chart)
-
-      // 指定图表的配置项和数据
-      const option = {
-        title: {
-          text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-          data: ['销量']
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      }
-      myChart.setOption(option)
-    },
-    drawMap() {
-      this.handleClick()
-      const myChartMap = this.$echarts.init(this.$refs.chartmap)
-      console.log('opionsMap之前', this.points)
-      const optionsMap = {
-        animation: false,
-        bmap: {
-          center: [120.13066322374, 30.240018034923],
-          zoom: 14,
-          roam: true
-        },
-        visualMap: {
-          show: false,
-          top: 'top',
-          min: 0,
-          max: 5,
-          seriesIndex: 0,
-          calculable: true,
-          inRange: {
-            color: ['blue', 'blue', 'green', 'yellow', 'red']
-          }
-        },
-        series: [{
-          type: 'heatmap',
-          coordinateSystem: 'bmap',
-          data: this.points,
-          pointSize: 5,
-          blurSize: 6
-        }]
-      }
-      console.log('points-------', this.points)
-      myChartMap.setOption(optionsMap)
-      var bmap = myChartMap.getModel().getComponent('bmap').getBMap()
-      bmap.addControl(new BMap.MapTypeControl())
     }
-
   }
 }
 </script>
 
-<style scope>
-
+<style scope lang="scss">
+.spatialSampling {
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  #map_container {
+    width: 100%;
+    height: 1000px;
+  }
+}
 </style>
