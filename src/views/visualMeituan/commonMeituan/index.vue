@@ -1,12 +1,12 @@
 <template>
   <div class="spatialSampling">
-    <div id="map" />
     <div id="map_container" />
   </div>
 
 </template>
 
 <script>
+import { get_json } from '@/api/visualMeituan'
 export default {
   name: 'App',
   data() {
@@ -109,85 +109,106 @@ export default {
     }
   },
   mounted() {
-    console.log('mapv', mapv)
-    var map = new BMap.Map('map', {
-      enableMapClick: false
-    }) // 创建Map实例
-    map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5) // 初始化地图,设置中心点坐标和地图级别
-    map.enableScrollWheelZoom(true) // 开启鼠标滚轮缩放
-    var randomCount = 300
+    var map = initMap({
+      tilt: 0,
+      heading: 0,
+      center: [105.348145, 37.976416],
+      zoom: 5,
+      style: purpleStyle
+    })
 
-    var data = []
+    // 创建九段线
+    var pt = new BMapGL.Point(130.943495, 22.781036)
+    var myIcon = new BMapGL.Icon('images/jiuduanxian.png', new BMapGL.Size(102, 150))
+    var marker = new BMapGL.Marker(pt, { icon: myIcon, enableDragging: true }) // 创建标注
+    map.addOverlay(marker)
 
-    var citys = [
-      '北京',
-      '天津',
-      '上海',
-      '重庆',
-      '石家庄',
-      '太原',
-      '呼和浩特',
-      '哈尔滨',
-      '长春',
-      '沈阳',
-      '济南',
-      '南京',
-      '合肥',
-      '杭州',
-      '南昌',
-      '福州',
-      '郑州',
-      '武汉',
-      '长沙',
-      '广州',
-      '南宁',
-      '西安',
-      '银川',
-      '兰州',
-      '西宁',
-      '乌鲁木齐',
-      '成都',
-      '贵阳',
-      '昆明',
-      '拉萨',
-      '海口'
-    ]
+    var view = new mapvgl.View({
+      map: map
+    })
 
-    // 构造数据
-    while (randomCount--) {
-      var cityCenter = mapv.utilCityCenter.getCenterByCityName(
-        citys[parseInt(Math.random() * citys.length)]
-      )
-      data.push({
-        geometry: {
-          type: 'Point',
-          coordinates: [
-            cityCenter.lng - 2 + Math.random() * 4,
-            cityCenter.lat - 2 + Math.random() * 4
-          ]
-        },
-        count: 30 * Math.random()
-      })
-    }
+    get_json().then(rs => {
+      console.log('rs.data:', rs.data)
+      return rs.data
+    }).then(rs => {
+      var data1 = []
+      var data2 = []
+      var data3 = []
+      for (var i = 0; i < rs[0].length; i++) {
+        var geoCoord = rs[0][i].geoCoord
+        data1.push({
+          geometry: {
+            type: 'Point',
+            coordinates: geoCoord
+          },
+          properties: {
+            time: Math.random() * 100
+          }
+        })
+      }
 
-    var dataSet = new mapv.DataSet(data)
+      for (var i = 0; i < rs[1].length; i++) {
+        var geoCoord = rs[1][i].geoCoord
+        data2.push({
+          geometry: {
+            type: 'Point',
+            coordinates: geoCoord
+          },
+          properties: {
+            time: Math.random() * 10
+          }
+        })
+      }
 
-    var options = {
-      fillStyle: 'rgba(255, 50, 50, 0.6)',
-      shadowColor: 'rgba(255, 50, 50, 1)',
-      shadowBlur: 30,
-      globalCompositeOperation: 'lighter',
-      methods: {
-        click: function(item) {
-          console.log(item)
-        }
-      },
-      size: 5,
-      // updateImmediate: true,
-      draw: 'simple'
-    }
+      for (var i = 0; i < rs[2].length; i++) {
+        var geoCoord = rs[2][i].geoCoord
+        data3.push({
+          geometry: {
+            type: 'Point',
+            coordinates: geoCoord
+          },
+          properties: {
+            time: Math.random() * 10
+          }
+        })
+      }
 
-    var mapvLayer = new mapv.baiduMapLayer(map, dataSet, options)
+      view.addLayer(new mapvgl.PointLayer({
+        blend: 'lighter',
+        shape: 'circle',
+        color: 'rgba(255, 77, 77, 0.8)', // 点图层1颜色
+        data: data1,
+        size: 1
+      }))
+
+      view.addLayer(new mapvgl.PointLayer({
+        blend: 'lighter',
+        shape: 'circle',
+        color: 'rgba(255, 204, 0, 0.6)', // 点图层2颜色
+        data: data2,
+        size: 1.5
+      }))
+
+      view.addLayer(new mapvgl.PointLayer({
+        blend: 'lighter',
+        shape: 'circle',
+        color: 'rgba(255, 255, 0, 0.6)', // 点图层3颜色
+        data: data3,
+        size: 2
+      }))
+
+      view.addLayer(new mapvgl.PointTripLayer({
+        blend: 'lighter',
+        shape: 'circle',
+        startTime: 0,
+        endTime: 100,
+        step: 0.1,
+        trailLength: 10,
+        color: 'rgba(255, 255, 153, 0.5)', // 点动画图层颜色
+        data: data1,
+        size: 1.5
+      }))
+    })
   },
   methods: {
   }
@@ -197,11 +218,11 @@ export default {
 <style scope lang="scss">
 .spatialSampling {
   width: 100%;
-  height: 1000px;
+  height: 100%;
   border: 1px solid red;
-  #map {
-    width: 80%;
-    height: 80%;
+  #map_container {
+    width: 100%;
+    height: 1000px;
   }
 }
 

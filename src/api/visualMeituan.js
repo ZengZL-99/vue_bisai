@@ -7,3 +7,11 @@ export function getinfo(token) {
     params: { token }
   })
 }
+
+export function get_json(token) {
+  return devService({
+    url: '/result_json',
+    method: 'get',
+    params: { token }
+  })
+}
