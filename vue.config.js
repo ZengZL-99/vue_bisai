@@ -50,7 +50,8 @@ module.exports = {
     externals: {
       'BMap': 'BMap',
       // eslint-disable-next-line no-mixed-spaces-and-tabs
-      'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT'
+      'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT',
+      'BaiduMap': 'BMap'
     }
   },
   chainWebpack(config) {
