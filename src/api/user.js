@@ -4,7 +4,7 @@ import { service, devService } from '@/utils/request'
 export function login(data) {
   return devService({
     // url: '/vue-admin-template/user/login',
-    url: '/login',
+    url: '/api/login',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return devService({
-    url: '/user/info',
+    url: '/api/user/info',
     method: 'get',
     params: { token }
   })
@@ -29,7 +29,7 @@ export function logout() {
 
 export function test(token) {
   return devService({
-    url: '/login',
+    url: '/api/login',
     method: 'post',
     params: { token }
   })

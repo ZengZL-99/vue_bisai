@@ -16,7 +16,7 @@ export default {
     ])
   },
   methods: {
-    get_test(){
+    get_test() {
       test()
     }
   }
@@ -32,5 +32,10 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+.img_2 {
+  width: 1920px;
+  height: 1080px;
+  padding-right: 50px;
 }
 </style>

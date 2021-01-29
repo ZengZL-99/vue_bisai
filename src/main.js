@@ -12,7 +12,9 @@ import App from './App'
 import store from './store'
 import router from './router'
 import echarts from 'echarts'
-
+import VueBMap from 'vue-bmap-gl'
+import 'vue-bmap-gl/dist/style.css'
+import VueMapvgl from 'vue-mapvgl'
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -33,9 +35,15 @@ if (process.env.NODE_ENV === 'production') {
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
+Vue.use(VueBMap)
+Vue.use(VueMapvgl)
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
+VueBMap.initBMapApiLoader({
+  ak: 'GYqucKgQD6kmLmICzoglATNBV3RITmqq',
+  v: '1.0'
+})
 new Vue({
   el: '#app',
   router,

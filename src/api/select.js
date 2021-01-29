@@ -2,7 +2,7 @@ import { devService } from '@/utils/request'
 
 export function getMtInfo(params) {
   return devService({
-    url: '/area_data',
+    url: '/api/area_data',
     method: 'get',
     params
   })
@@ -10,7 +10,7 @@ export function getMtInfo(params) {
 
 export function getMtData(params) {
   return devService({
-    url: '/handleSelect',
+    url: '/api/handleSelect',
     method: 'get',
     params
   })

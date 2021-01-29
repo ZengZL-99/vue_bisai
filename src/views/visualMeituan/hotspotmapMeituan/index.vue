@@ -7,7 +7,6 @@
 <script>
 import { getinfo, beijing } from '@/api/visualMeituan'
 import 'echarts/extension/bmap/bmap'
-import { getInfo } from '@/api/user'
 
 export default {
   name: 'HotspotmapMeituan',
@@ -47,7 +46,7 @@ export default {
       }
       console.log('data:', data)
       var heatmap = new mapvgl.HeatmapLayer({
-        size: 300, // 单个点绘制大小
+        size: 100, // 单个点绘制大小
         max: 40, // 最大阈值
         height: 0, // 最大高度，默认为0
         unit: 'm', // 单位，m:米，px: 像素
@@ -80,7 +79,7 @@ export default {
   border: 1px solid red;
   #map_container {
     width: 100%;
-    height: 1000px;
+    height: 1200px;
   }
 }
 </style>

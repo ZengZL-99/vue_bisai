@@ -2,7 +2,7 @@ import { devService } from '@/utils/request'
 
 export function getinfo(token) {
   return devService({
-    url: '/get_lat_lng',
+    url: '/api/get_lat_lng',
     method: 'get',
     params: { token }
   })
@@ -10,7 +10,7 @@ export function getinfo(token) {
 
 export function get_json(token) {
   return devService({
-    url: '/result_json',
+    url: '/api/result_json',
     method: 'get',
     params: { token }
   })
@@ -18,7 +18,15 @@ export function get_json(token) {
 
 export function beijing(token) {
   return devService({
-    url: '/beijing',
+    url: '/api/beijing',
+    method: 'get',
+    params: { token }
+  })
+}
+
+export function getinfo_v2(token) {
+  return devService({
+    url: '/api/get_lat_lng_v2',
     method: 'get',
     params: { token }
   })
