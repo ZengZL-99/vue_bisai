@@ -31,3 +31,19 @@ export function getinfo_v2(token) {
     params: { token }
   })
 }
+
+export function get_area_mark(token) {
+  return devService({
+    url: '/aly/area_mark_mean',
+    method: 'get',
+    params: { token }
+  })
+}
+
+export function get_area_count(token) {
+  return devService({
+    url: '/aly//area_count',
+    method: 'get',
+    params: { token }
+  })
+}
