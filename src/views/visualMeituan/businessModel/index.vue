@@ -16,7 +16,8 @@ export default {
     return {
       count: 1,
       zoom: 14,
-      center: [113.387456, 23.000406],
+      center: [113.297456, 23.210406],
+      tilt: 45,
       gradient: {
         0.0: 'rgb(50, 50, 256)',
         0.1: 'rgb(50, 250, 56)',

@@ -32,7 +32,7 @@ export function getinfo_v2(token) {
   })
 }
 
-export function get_area_mark(token) {
+export function getAreaMark(token) {
   return devService({
     url: '/aly/area_mark_mean',
     method: 'get',
@@ -40,9 +40,25 @@ export function get_area_mark(token) {
   })
 }
 
-export function get_area_count(token) {
+export function getAreaCount(token) {
   return devService({
-    url: '/aly//area_count',
+    url: '/aly/area_count',
+    method: 'get',
+    params: { token }
+  })
+}
+
+export function getPhoneCount(token) {
+  return devService({
+    url: '/aly/aly_phone',
+    method: 'get',
+    params: { token }
+  })
+}
+
+export function getScoreData(token) {
+  return devService({
+    url: 'aly/group_score',
     method: 'get',
     params: { token }
   })

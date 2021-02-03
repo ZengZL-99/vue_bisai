@@ -5,81 +5,42 @@
   </div>
 </template>
 <script>
-import { getinfo, beijing } from '@/api/visualMeituan'
+// import { getinfo, beijing } from '@/api/visualMeituan'
+import { mapvgl, BMapGL } from 'vue-mapvgl'
 import 'echarts/extension/bmap/bmap'
+var bmapgl = new BMapGL.Map('map_container')
+var point = new BMapGL.Point(116.403748, 39.915055)
+bmapgl.centerAndZoom(point, 17)
 
-export default {
-  name: 'HotspotmapMeituan',
-  data() {
-    return {
-      points: null
-    }
-  },
-  created() {
-    this.handleClick()
-  },
-  mounted() {
-    var map = initMap()
+// 2. 创建MapVGL图层管理器
+var view = new mapvgl.View({
+  map: bmapgl
+})
 
-    var point = new BMapGL.Point(113.387456, 23.000406)
-    map.centerAndZoom(point, 12)
+// 3. 创建可视化图层，并添加到图层管理器中
+var layer = new mapvgl.PointLayer({
+  color: 'rgba(50, 50, 200, 1)',
+  blend: 'lighter',
+  size: 2
+})
+view.addLayer(layer)
 
-    var view = new mapvgl.View({
-      map: map
-    })
-
-    getinfo().then(res => {
-      // res = res.result.data[0].bound
-      res = res.info.result.data[0].bound
-      var data = []
-      for (var i = 0; i < res.length; i++) {
-        var item = res[i]
-        data.push({
-          geometry: {
-            type: 'Point',
-            coordinates: [item[0], item[1]]
-          },
-          properties: {
-            count: item[2]
-          }
-        })
-      }
-      console.log('data:', data)
-      var heatmap = new mapvgl.HeatmapLayer({
-        size: 100, // 单个点绘制大小
-        max: 40, // 最大阈值
-        height: 0, // 最大高度，默认为0
-        unit: 'm', // 单位，m:米，px: 像素
-        gradient: { // 对应比例渐变色
-          0.25: 'rgba(0, 0, 255, 1)',
-          0.55: 'rgba(0, 255, 0, 1)',
-          0.85: 'rgba(255, 255, 0, 1)',
-          1: 'rgba(255, 0, 0, 1)'
-        }
-      })
-      view.addLayer(heatmap)
-      heatmap.setData(data)
-      console.log('绘制完成')
-    })
-  },
-  methods: {
-    handleClick() {
-      getinfo().then(res => {
-        this.points = res.data
-      })
-    }
+// 4. 准备好规范化坐标数据
+var data = [{
+  geometry: {
+    type: 'POINT',
+    coordinates: [116.403748, 39.915055]
   }
+}]
+
+// 5. 关联图层与数据，享受震撼的可视化效果
+layer.setData(data)
+export default {
+  name: 'HotspotmapMeituan'
+
 }
 </script>
 
 <style scope lang="scss">
-.spatialSampling {
-  width: 100%;
-  height: 100%;
-  border: 1px solid red;
-  #map_container {
-    width: 100%;
-    height: 1200px;
-  }
-}
+
 </style>

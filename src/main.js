@@ -11,13 +11,13 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-import echarts from 'echarts'
-import VueBMap from 'vue-bmap-gl'
+import echarts from 'echarts' // 导入echarts
+import VueBMap from 'vue-bmap-gl' // 导入vue-bmap-gl 百度地图组件
 import 'vue-bmap-gl/dist/style.css'
-import VueMapvgl from 'vue-mapvgl'
+import VueMapvgl from 'vue-mapvgl' // 导入vue-mapvgl
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import JsonExcel from 'vue-json-excel' // 导入vue-json-excel超级方便导出excel表格数据
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -39,7 +39,7 @@ Vue.use(VueBMap)
 Vue.use(VueMapvgl)
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
-
+Vue.component('downloadExcel', JsonExcel) // 注册全局组件
 VueBMap.initBMapApiLoader({
   ak: 'GYqucKgQD6kmLmICzoglATNBV3RITmqq',
   v: '1.0'
