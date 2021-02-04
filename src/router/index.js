@@ -111,6 +111,26 @@ export const constantRoutes = [
             meta: { title: '商家画像', icon: 'tree' }
           }
         ]
+      },
+      {
+        path: 'contrastMeituan',
+        name: 'contrastMeituan',
+        component: () => import('@/views/contrastMeituan/index'),
+        meta: { title: '信息对比功能', icon: 'tree' },
+        children: [
+          {
+            path: 'batchContrast',
+            name: 'batchContrast',
+            component: () => import('@/views/contrastMeituan/batchContrast/index'),
+            meta: { title: '批量对比', icon: 'tree' }
+          },
+          {
+            path: 'singleContrast',
+            name: 'singleContrast',
+            component: () => import('@/views/contrastMeituan/singleContrast/index'),
+            meta: { title: '单个对比', icon: 'tree' }
+          }
+        ]
       }
     ]
   },

@@ -16,6 +16,17 @@
           <div class="chaxun_btn">
             <el-button type="primary" @click="handleSelect">查询</el-button>
           </div>
+          <div class="daochu_btn">
+            <download-excel
+              class="export-excel-wrapper"
+              :data="tableData"
+              :fields="json_fields"
+              name="filename.xls"
+            >
+              <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+              <el-button type="primary" @click="handleExcel">导出EXCEL</el-button>
+            </download-excel>
+          </div>
         </div>
       </div>
       <div class="se-bd">
@@ -71,12 +82,14 @@
           @current-change="handleCurrentChange"
         />
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
 import { getMtInfo, getMtData } from '@/api/select'
+import { Message } from 'element-ui'
 export default {
   data() {
     return {
@@ -87,7 +100,27 @@ export default {
       total: null,
       currentPage: 1,
       pageSize: 10,
-      input: ''
+      input: null,
+      json_fields: {
+        'name': 'name', // 常规字段
+        addr: 'addr' // 支持嵌套属性
+        /*
+        'Telephone 2': {
+          field: 'phone.landline',
+          // 自定义回调函数
+          callback: value => {
+            return `Landline Phone - ${value}`
+          }
+        }*/
+      },
+      json_meta: [
+        [
+          {
+            'key': 'charset',
+            'value': 'utf-8'
+          }
+        ]
+      ]
     }
   },
   created() {
@@ -97,19 +130,35 @@ export default {
   },
   methods: {
     handleSelect() {
-      const selectList = []
-      for (let i = 0; i < this.values.length; i++) {
-        selectList.push(this.values[i][1])
-      }
-      console.log('列表', selectList)
-      getMtData(selectList).then(res => {
+      if (this.values === null || this.values.length === 0) {
+        console.log('wwww')
+        Message.warning({
+          message: '请选择需要查询的区域!'
+
+        })
+      } else {
+        const selectList = []
+        for (let i = 0; i < this.values.length; i++) {
+          selectList.push(this.values[i][1])
+        }
+        if (this.input != null && this.input !== '') {
+          selectList.push(this.input)
+        }
+        console.log('列表', selectList)
+        getMtData(selectList).then(res => {
         /* for (let i = 0; i < 100; i++) {
           this.tableData.push(res.data[i])
         }*/
-        this.tableData = res.data
-        console.log('数据', this.tableData)
-        this.total = this.tableData.length
-      })
+          this.tableData = res.data
+          console.log('数据', this.tableData)
+          this.total = this.tableData.length
+        }).then(() => {
+          Message.success({
+            message: '查询成功！'
+
+          })
+        })
+      }
     },
     handleSizeChange: function(val) {
       this.pageSize = val
@@ -120,6 +169,14 @@ export default {
     handleClick(row) {
       // console.log('杀杀杀', row)
       window.open(row.shopUrl)
+    },
+    handleExcel() {
+      if (this.tableData.length === 0) {
+        Message.warning({
+          message: '请先查询需要导出的数据!'
+        }
+        )
+      }
     }
   }
 }
@@ -162,7 +219,7 @@ export default {
   margin-left: 10px;
 }
 
-.chaxun_btn {
+.chaxun_btn, .daochu_btn {
   display: inline-block;
 }
 </style>
