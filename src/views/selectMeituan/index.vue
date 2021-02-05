@@ -93,14 +93,14 @@ import { Message } from 'element-ui'
 export default {
   data() {
     return {
-      values: null,
+      values: [],
       options: [],
       props: { expandTrigger: 'hover', multiple: true },
       tableData: [],
       total: null,
       currentPage: 1,
       pageSize: 10,
-      input: null,
+      input: undefined,
       json_fields: {
         'name': 'name', // 常规字段
         addr: 'addr' // 支持嵌套属性
@@ -130,22 +130,30 @@ export default {
   },
   methods: {
     handleSelect() {
-      if (this.values === null || this.values.length === 0) {
+      console.log('undefined', this.inptu === undefined)
+      console.log('length', this.values.length === 0)
+      console.log('input', this.input === '')
+      if ((this.input === undefined || this.input.trim() === '') && this.values.length === 0) {
         console.log('wwww')
         Message.warning({
-          message: '请选择需要查询的区域!'
-
+          message: '请选择输入查询的区域!'
         })
       } else {
+        console.log('判断成功了')
         const selectList = []
         for (let i = 0; i < this.values.length; i++) {
           selectList.push(this.values[i][1])
         }
-        if (this.input != null && this.input !== '') {
+        /* if (this.input !== undefined && this.input.trim() !== '') {
           selectList.push(this.input)
-        }
+        }*/
         console.log('列表', selectList)
-        getMtData(selectList).then(res => {
+        const z = {
+          'info': JSON.stringify(selectList),
+          'like': this.input
+        }
+        console.log(z)
+        getMtData(z).then(res => {
         /* for (let i = 0; i < 100; i++) {
           this.tableData.push(res.data[i])
         }*/

@@ -191,14 +191,14 @@ $light_gray:#eee;
 
 .clearfix {
   /* 触发 hasLayout */
-  zoom: 1;
+  *zoom: 1;
 }
 .login-container {
   min-height: 100%;
   width: 100%;
   // background-color: $bg;
   overflow: hidden;
-  background-image: url("C:/Users/S2/Desktop/登录页面背景图02.png");
+  background-image: url("C:/Users/S2/Desktop/登录页面背景图03.jpg");
   background-repeat: no-repeat;
   background-position: center 0;
   .right-main {
