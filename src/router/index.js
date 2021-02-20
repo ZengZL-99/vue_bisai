@@ -129,6 +129,12 @@ export const constantRoutes = [
             name: 'singleContrast',
             component: () => import('@/views/contrastMeituan/singleContrast/index'),
             meta: { title: '单个对比', icon: 'tree' }
+          },
+          {
+            path: 'testContrast',
+            name: 'testContrast',
+            component: () => import('@/views/contrastMeituan/testContrast/index'),
+            meta: { title: '文件上传对比', icon: 'tree' }
           }
         ]
       }

@@ -7,3 +7,11 @@ export function singleQuery(params) {
     params
   })
 }
+
+export function testContrast(data) {
+  return devService({
+    url: '/cont/upload',
+    method: 'post',
+    data
+  })
+}

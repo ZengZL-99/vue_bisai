@@ -81,6 +81,8 @@ export default {
   },
   methods: {
     handleSingle() {
+      this.tableData = null
+      this.singleData = []
       singleQuery({
         'single': this.input,
         'lng': 113.272283,
