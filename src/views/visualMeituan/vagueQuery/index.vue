@@ -3,7 +3,7 @@
     <div class="single-input clearfix">
       <el-input
         v-model="input"
-        placeholder="请输入内容"
+        placeholder="请输入店铺名称（模糊）"
         clearable
       />
       <el-button type="primary" @click="handleSingle">对比</el-button>
@@ -84,9 +84,7 @@ export default {
       this.tableData = null
       this.singleData = []
       singleQuery({
-        'single': this.input,
-        'lng': 113.272283,
-        'lat': 23.1551
+        'single': this.input
       }).then(res => {
         this.tableData = res.data.query_list
         console.log(res.data)

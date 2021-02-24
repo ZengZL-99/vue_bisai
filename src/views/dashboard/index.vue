@@ -1,20 +1,13 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎您: {{ name }}</div>
-    <button @click="get_test">测试</button>
+    欢迎使用商户数据检测平台
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { test } from '@/api/user'
 export default {
   name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  },
   methods: {
     get_test() {
       test()

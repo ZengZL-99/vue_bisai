@@ -8,9 +8,17 @@ export function singleQuery(params) {
   })
 }
 
-export function testContrast(data) {
+export function upContrastBus(data) {
   return devService({
-    url: '/cont/upload',
+    url: '/cont/uploadBus',
+    method: 'post',
+    data
+  })
+}
+
+export function upContrastCom(data) {
+  return devService({
+    url: '/cont/uploadCom',
     method: 'post',
     data
   })

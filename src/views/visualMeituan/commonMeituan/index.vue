@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getAreaMark, getAreaCount, getPhoneCount, getScoreData } from '@/api/visualMeituan'
+import { getAreaMark, getAreaCount, getScoreData, getDataAll } from '@/api/visualMeituan'
 export default {
   name: 'App',
   data() {
@@ -40,17 +40,29 @@ export default {
   },
   beforeMount() {
     this.getData()
+    /*
     this.reqScoreData()
     this.reqAreaData()
+    */
   },
   methods: {
     getData() {
+      getDataAll().then(res => {
+        console.log(Object.keys(res.data[0]))
+        res.data[0]['alyMark'].forEach(el => {
+          this.markSeriesData.push(el.meanMark)
+          this.markLegendData.push(el.areaName)
+        })
+        this.areaCount = res.data[0].alyArea
+        this.scoreData = res.data[0].alyScore
+      })
+      /*
       getAreaMark().then(res => {
         res.data.forEach(el => {
           this.markSeriesData.push(el.meanMark)
           this.markLegendData.push(el.areaName)
         })
-      })
+      })*/
       /*
       getPhoneCount().then(res => {
         res.data.forEach(el => {
@@ -59,6 +71,7 @@ export default {
         })
       })*/
     },
+    /*
     reqAreaData() {
       getAreaCount().then(res => {
         this.areaCount = res.data
@@ -68,7 +81,7 @@ export default {
       getScoreData().then(res => {
         this.scoreData = res.data
       })
-    },
+    },*/
     myEcharts() {
       var myBar = this.$echarts.init(document.getElementById('hd_bar'))
       const optionBar = {
@@ -85,10 +98,23 @@ export default {
           type: 'category',
           data: this.markLegendData
         },
-        yAxis: {},
+        yAxis: {
+          axisLine: {
+            show: false // y轴线消失
+          },
+          axisTick: {
+            show: false // y轴坐标点消失
+          }
+        },
         series: [{
           name: '评论数',
           type: 'bar',
+          itemStyle: {
+            color: 'SkyBlue',
+            // borderRadius: 5,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowBlur: 10
+          },
           data: this.markSeriesData// [795, 278, 379, 60, 464, 179, 197, 14, 678, 68, 173, 513, 128, 398, 331, 294, 218, 98, 136, 295, 731, 1589, 148, 190, 223, 228, 82, 284]
         }]
       }

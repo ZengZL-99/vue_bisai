@@ -15,37 +15,51 @@
       :before-upload="beforeUploadFile"
     >
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-      <el-button style="margin-left: 10px;" size="small" type="success" @click="uploadFile">上传到服务器</el-button>
+      <el-button style="margin-left: 10px;" size="small" type="success" @click="uploadFile">数据比对</el-button>
       <div slot="tip" class="el-upload__tip">只能上传excel的文件,且文件大小不超过10M</div>
     </el-upload>
     <div class="single-tb">
       <el-table
         :data="tableData"
         :span-method="objectSpanMethod"
-        height="250"
+        height="650"
         border
         style="width: 100%"
       >
         <el-table-column
           prop="name"
-          label="商铺名称"
+          label="企业名称"
           width="180"
           align="center"
         />
+        <el-table-column
+          prop="socialCredit"
+          label="统一社会信用代码"
+          align="center"
+          width="180"
+        />
+        <el-table-column
+          prop="tag"
+          label="预警状态"
+          width="100"
+          align="center"
+          :filters="filtersData"
+          :filter-method="filterTag"
+          filter-placement="bottom-end"
+        >
+          <template slot-scope="scope">
+            <i :class="handleIcon(scope.row.statusCode)" />
+          </template>
+        </el-table-column>
         <el-table-column
           prop="addr"
           label="地址"
           header-align="center"
         />
+
         <el-table-column
-          prop="lat"
-          label="纬度"
-          align="center"
-          width="180"
-        />
-        <el-table-column
-          prop="lng"
-          label="经度"
+          prop="regStatus"
+          label="经营状态"
           align="center"
           width="180"
         />
@@ -58,45 +72,45 @@
         />-->
       </el-table>
     </div>
-    <div class="bmap-page-container">
-      <el-bmap vid="bmapDemo" :zoom="zoom" :center="center" class="bmap-demo">
-        <el-bmapv-view :effects="effects">
-          <el-bmapv-circle-layer :visible="visible" :type="type" :size="10" :radius="radius" :data="singleData" />
-        </el-bmapv-view>
-      </el-bmap>
-    </div>
   </div>
 </template>
 
 <script>
-import { testContrast } from '@/api/contrastMeituan'
-import { effect } from 'vue-mapvgl'
-const bloomEffect = new effect.BloomEffect({
-  threshold: 0.2,
-  blurSize: 2.0
-})
+import { upContrastCom } from '@/api/contrastMeituan'
+
 export default {
   data() {
     return {
       input: null,
       tableData: [],
-      visible: false,
-      effects: [bloomEffect],
-      zoom: 14,
-      center: [113.272283, 23.1551],
-      type: 'bubble',
-      radius(size) {
-        return size * 2
-      },
-      singleData: [],
       editForm: {
         file: {},
         fileList: []
-      }
-
+      },
+      filtersData: [
+        { text: '正常', value: '20' },
+        { text: '警告', value: '10' },
+        { text: '错误', value: '00' }
+      ]
     }
   },
   methods: {
+    handleIcon(status) {
+      if (status === '00') {
+        return 'el-icon-error'
+      } else if (status === '20') {
+        return 'el-icon-success'
+      } else if (status === '10') {
+        return 'el-icon-warning'
+      } else if (status === '01') {
+        return 'el-icon-message-solid'
+      }
+    },
+    filterTag(value, row) {
+      console.log('value', value)
+      console.log('row', row)
+      return row.statusCode === value
+    },
     handleRemove(file, fileList) { // 	 文件列表移除文件时的钩子
       console.log('执行了handleRemove', file, fileList)
     },
@@ -104,11 +118,8 @@ export default {
       console.log('执行了handlePreview', file)
     },
     beforeUploadFile(file) {
-      console.log('1234124124', file)
       const extension = file.name.substring(file.name.lastIndexOf('.') + 1)
       const size = file.size / 1024 / 1024
-      console.log('extension', extension)
-      console.log('size', size)
       if (extension !== 'xlsx' && extension !== 'xls') {
         this.$refs.upload.clearFiles()
         this.$message.warning('只能上传excel的文件')
@@ -158,29 +169,32 @@ export default {
       }
       console.log(formData)
 
-      testContrast(formData, config).then(res => {
+      upContrastCom(formData, config).then(res => {
         this.tableData = []
         res.data.forEach(el => {
           this.tableData.push({
-            'name': el.name,
-            'addr': el.old_addr,
-            'lat': el.old_lat,
-            'lng': el.old_lng
+            'name': el.coNameX,
+            'statusCode': el.statusCode,
+            'addr': el.addrX,
+            'socialCredit': el.socialCredit,
+            'regStatus': el.regStatusX
           })
           this.tableData.push({
-            'name': el.name,
-            'addr': el.new_addr,
-            'lat': el.new_lat,
-            'lng': el.new_lng
+            'name': el.coNameY,
+            'statusCode': el.statusCode,
+            'addr': el.addrY,
+            'socialCredit': el.socialCredit,
+            'regStatus': el.regStatusY
           }
           )
         })
       })
+      /*
       this.editForm.file = {}
-      this.editForm.fileList = []
+      this.editForm.fileList = []*/
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
+      if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2) {
         if (rowIndex % 2 === 0) {
           return {
             rowspan: 2,
@@ -207,6 +221,20 @@ export default {
   visibility: hidden;
 }
 
+.el-icon-error {
+  color: rgb(247, 137, 137);
+  font-size: 20px;
+}
+
+.el-icon-success {
+  color: rgb(103, 194, 58);
+  font-size: 20px;
+}
+
+.el-icon-warning {
+  color: rgb(235, 181, 99);
+  font-size: 20px;
+}
 .clearfix {
   /* 触发 hasLayout */
   *zoom: 1;

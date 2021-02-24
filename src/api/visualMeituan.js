@@ -63,3 +63,11 @@ export function getScoreData(token) {
     params: { token }
   })
 }
+
+export function getDataAll(token) { // 汇总所有的数据分析请求
+  return devService({
+    url: 'aly/data_all',
+    method: 'get',
+    params: { token }
+  })
+}

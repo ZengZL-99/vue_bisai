@@ -51,64 +51,52 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'el-icon-s-home' }
     }]
   },
 
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/example/selectMeituan',
     name: 'Example',
-    meta: { title: '管理', icon: 'el-icon-s-help' },
+    meta: { title: '管理', icon: 'el-icon-menu' },
     children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      },
-      {
-        path: 'crawl',
-        name: 'Crawl',
-        component: () => import('@/views/crawl/index'),
-        meta: { title: '爬取信息', icon: 'tree' }
-      },
       {
         path: 'selectMeituan',
         name: 'SelectMeituan',
         component: () => import('@/views/selectMeituan/index'),
-        meta: { title: '信息查询', icon: 'tree' }
+        meta: { title: '信息查询', icon: 'el-icon-search' }
       },
       {
         path: 'visualMeituan',
         name: 'visualMeituan',
         component: () => import('@/views/visualMeituan/index'),
-        meta: { title: '可视化', icon: 'tree' },
+        meta: { title: '可视化', icon: 'el-icon-s-data' },
         children: [
           {
             path: 'common',
             name: 'common',
             component: () => import('@/views/visualMeituan/commonMeituan/index'),
-            meta: { title: '普通可视化', icon: 'tree' }
+            meta: { title: '普通可视化', icon: 'el-icon-pie-chart' }
           },
           {
             path: 'hotspot',
             name: 'hotspot',
-            component: () => import('@/views/visualMeituan/hotspotmapMeituan/index'),
+            component: () => import('@/views/visualMeituan/hotspotmapMeituan2/index'),
             meta: { title: '热点图可视化', icon: 'tree' }
           },
           {
             path: 'businessModel',
             name: 'businessModel',
-            component: () => import('@/views/visualMeituan/businessModel/index'),
-            meta: { title: '商家画像', icon: 'tree' }
+            component: () => import('@/views/visualMeituan/hotspotmapMeituan/index'),
+            meta: { title: '商家分布热力图', icon: 'el-icon-location-information' }
+          },
+          {
+            path: 'singleContrast',
+            name: 'singleContrast',
+            component: () => import('@/views/visualMeituan/vagueQuery/index'),
+            meta: { title: '模糊查询热点图', icon: 'el-icon-search' }
           }
         ]
       },
@@ -119,22 +107,16 @@ export const constantRoutes = [
         meta: { title: '信息对比功能', icon: 'tree' },
         children: [
           {
-            path: 'batchContrast',
-            name: 'batchContrast',
-            component: () => import('@/views/contrastMeituan/batchContrast/index'),
-            meta: { title: '批量对比', icon: 'tree' }
+            path: 'uploadContrastCom',
+            name: 'uploadContrastCom',
+            component: () => import('@/views/contrastMeituan/uploadContrastCom/index'),
+            meta: { title: '文件上传对比(企)', icon: 'tree' }
           },
           {
-            path: 'singleContrast',
-            name: 'singleContrast',
-            component: () => import('@/views/contrastMeituan/singleContrast/index'),
-            meta: { title: '单个对比', icon: 'tree' }
-          },
-          {
-            path: 'testContrast',
-            name: 'testContrast',
-            component: () => import('@/views/contrastMeituan/testContrast/index'),
-            meta: { title: '文件上传对比', icon: 'tree' }
+            path: 'uploadContrast',
+            name: 'uploadContrast',
+            component: () => import('@/views/contrastMeituan/uploadContrast/index'),
+            meta: { title: '文件上传对比(商)', icon: 'el-icon-upload2' }
           }
         ]
       }

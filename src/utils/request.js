@@ -13,7 +13,7 @@ const service = axios.create({
 const devService = axios.create({
   baseURL: process.env.VUE_APP_BASE_API2, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 10000 // request timeout
 })
 
 // request interceptor request 拦截器
@@ -152,7 +152,7 @@ devService.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log('啊啊啊啊啊' + error) // for debug
     Message({
       message: error.message,
       type: 'error',
