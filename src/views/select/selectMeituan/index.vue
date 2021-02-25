@@ -21,7 +21,7 @@
               class="export-excel-wrapper"
               :data="tableData"
               :fields="json_fields"
-              name="filename.xls"
+              name="meituandate.xls"
             >
               <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
               <el-button type="primary" @click="handleExcel">导出EXCEL</el-button>
@@ -43,16 +43,23 @@
             label="序号"
             width="50px"
           />
+          <!--
           <el-table-column
             prop="poiId"
             label="商铺ID"
             width="100"
             align="center"
-          />
+          />-->
           <el-table-column
             prop="name"
             label="名称"
             width="220"
+            align="center"
+          />
+          <el-table-column
+            prop="time"
+            label="获取日期"
+            width="120"
             align="center"
           />
           <el-table-column
@@ -65,9 +72,26 @@
             width="100"
             align="center"
           >
+
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="handleClick(scope.row)">链接</el-button>
-              <el-button type="text" size="small">编辑</el-button>
+              <!---
+              <el-button type="text" @click="dialogVisible = true">地图</el-button>
+              <el-dialog
+                title="百度地图"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="handleClose"
+              >
+                <div class="bmap-page-container">
+                  <el-bmap vid="bmapDemo" :zoom="zoom" :center="center" class="bmap-demo">
+                    <el-bmapv-view :effects="effects">
+                      <el-bmapv-circle-layer :visible="visible" :type="type" :size="10" :radius="radius" :data="singleData" />
+                    </el-bmapv-view>
+                  </el-bmap>
+                </div>
+              </el-dialog>
+              -->
             </template>
           </el-table-column>
         </el-table>
@@ -90,6 +114,12 @@
 <script>
 import { getMtInfo, getMtData } from '@/api/select'
 import { Message } from 'element-ui'
+/*
+import { effect } from 'vue-mapvgl'
+const bloomEffect = new effect.BloomEffect({
+  threshold: 0.2,
+  blurSize: 2.0
+})*/
 export default {
   data() {
     return {
@@ -101,9 +131,23 @@ export default {
       currentPage: 1,
       pageSize: 10,
       input: undefined,
+      /*
+      dialogVisible: false,
+      visible: false,
+      effects: [bloomEffect],
+      zoom: 14,
+      center: [113.272283, 23.1551],
+      type: 'bubble',
+      radius(size) {
+        return size * 2
+      },
+      singleData: [],
+      */ // -----
       json_fields: {
         'name': 'name', // 常规字段
-        addr: 'addr' // 支持嵌套属性
+        addr: 'addr', // 支持嵌套属性
+        time: 'time',
+        shopUrl: 'shopUrl'
         /*
         'Telephone 2': {
           field: 'phone.landline',
@@ -186,6 +230,7 @@ export default {
         )
       }
     }
+
   }
 }
 </script>

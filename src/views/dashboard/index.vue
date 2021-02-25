@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <h1 class="ds-h1">欢迎使用商户数据检测平台</h1>
+    <h1 class="ds-h1">欢迎使用商户数据监测平台</h1>
     <div class="ds-bd">
       <h3 class="bd-h3">功能快捷直达按钮</h3>
       <el-button type="primary" plain @click="reSelect">信息查询</el-button>

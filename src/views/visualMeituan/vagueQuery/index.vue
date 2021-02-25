@@ -6,7 +6,7 @@
         placeholder="请输入店铺名称（模糊）"
         clearable
       />
-      <el-button type="primary" @click="handleSingle">对比</el-button>
+      <el-button type="primary" @click="handleSingle">查询</el-button>
     </div>
     <div class="single-tb">
       <el-table

@@ -15,3 +15,12 @@ export function getMtData(params) {
     params
   })
 }
+
+export function getQccData(params) {
+  return devService({
+    url: '/api/handleSelectQcc',
+    method: 'get',
+    params
+  })
+}
+

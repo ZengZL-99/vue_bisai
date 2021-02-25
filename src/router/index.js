@@ -65,8 +65,22 @@ export const constantRoutes = [
       {
         path: 'selectMeituan',
         name: 'SelectMeituan',
-        component: () => import('@/views/selectMeituan/index'),
-        meta: { title: '信息查询', icon: 'el-icon-search' }
+        component: () => import('@/views/select/index'),
+        meta: { title: '信息查询', icon: 'el-icon-search' },
+        children: [
+          {
+            path: 'common',
+            name: 'common',
+            component: () => import('@/views/select/selectMeituan/index'),
+            meta: { title: '信息查询(商户)', icon: 'el-icon-house' }
+          },
+          {
+            path: 'QCCcommon',
+            name: 'QCCcommon',
+            component: () => import('@/views/select/selectMeituanCom/index'),
+            meta: { title: '信息查询(企业)', icon: 'el-icon-office-building' }
+          }
+        ]
       },
       {
         path: 'visualMeituan',
@@ -105,19 +119,19 @@ export const constantRoutes = [
         path: 'contrastMeituan',
         name: 'contrastMeituan',
         component: () => import('@/views/contrastMeituan/index'),
-        meta: { title: '信息对比功能', icon: 'tree' },
+        meta: { title: '信息对比功能', icon: 'el-icon-upload2' },
         children: [
           {
             path: 'uploadContrastCom',
             name: 'uploadContrastCom',
             component: () => import('@/views/contrastMeituan/uploadContrastCom/index'),
-            meta: { title: '文件上传对比(企)', icon: 'tree' }
+            meta: { title: '文件上传对比(企)', icon: 'el-icon-sort' }
           },
           {
             path: 'uploadContrast',
             name: 'uploadContrast',
             component: () => import('@/views/contrastMeituan/uploadContrast/index'),
-            meta: { title: '文件上传对比(商)', icon: 'el-icon-upload2' }
+            meta: { title: '文件上传对比(商)', icon: 'el-icon-sort' }
           }
         ]
       }

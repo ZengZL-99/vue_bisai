@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '商户数据检测平台'
+      title: '商户数据监测平台'
       // logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
       // logo: 'http://127.0.0.1:5000/static/%E5%86%8D%E8%8A%AELogo.png'
     }

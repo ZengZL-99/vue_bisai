@@ -52,17 +52,23 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="addr"
-          label="地址"
-          header-align="center"
-        />
-
-        <el-table-column
           prop="regStatus"
           label="经营状态"
           align="center"
           width="180"
         />
+        <el-table-column
+          prop="time"
+          label="时间"
+          align="center"
+          width="120"
+        />
+        <el-table-column
+          prop="addr"
+          label="地址"
+          header-align="center"
+        />
+
         <!--
         <el-table-column
           prop="date"
@@ -177,14 +183,16 @@ export default {
             'statusCode': el.statusCode,
             'addr': el.addrX,
             'socialCredit': el.socialCredit,
-            'regStatus': el.regStatusX
+            'regStatus': el.regStatusX,
+            'time': el.approvalDateX
           })
           this.tableData.push({
             'name': el.coNameY,
             'statusCode': el.statusCode,
             'addr': el.addrY,
             'socialCredit': el.socialCredit,
-            'regStatus': el.regStatusY
+            'regStatus': el.regStatusY,
+            'time': el.approvalDateY
           }
           )
         })

@@ -221,7 +221,7 @@ export default {
               }
             },
             labelLine: {
-              show: false
+              show: true
             },
             data: this.scoreData
           }
