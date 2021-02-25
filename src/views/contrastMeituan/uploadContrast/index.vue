@@ -179,9 +179,9 @@ export default {
           this.tableData.push({
             'name': el.name,
             'statusCode': el.status_code,
-            'addr': el.new_addr,
-            'lat': el.new_lat,
-            'lng': el.new_lng
+            'addr': el.new_addr === '无数据' ? '——' : el.new_addr,
+            'lat': el.new_lat === 0 ? '——' : el.new_lat,
+            'lng': el.new_lng === 0 ? '——' : el.new_lng
           }
           )
         })

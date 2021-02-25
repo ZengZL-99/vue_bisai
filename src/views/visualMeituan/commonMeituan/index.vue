@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getAreaMark, getAreaCount, getScoreData, getDataAll } from '@/api/visualMeituan'
+import { getAreaMark, getAreaCount, getScoreData } from '@/api/visualMeituan'
 export default {
   name: 'App',
   data() {
@@ -18,7 +18,8 @@ export default {
       areaCount: [],
       phoneSeriesData: [],
       phoneLegendData: [],
-      scoreData: []
+      scoreData: [],
+      oneScoreData: []
     }
   },
   watch: {
@@ -39,14 +40,13 @@ export default {
     }
   },
   beforeMount() {
-    this.getData()
-    /*
+    this.reqMarkaData()
     this.reqScoreData()
     this.reqAreaData()
-    */
   },
   methods: {
-    getData() {
+    reqMarkaData() {
+      /*
       getDataAll().then(res => {
         console.log(Object.keys(res.data[0]))
         res.data[0]['alyMark'].forEach(el => {
@@ -55,14 +55,14 @@ export default {
         })
         this.areaCount = res.data[0].alyArea
         this.scoreData = res.data[0].alyScore
-      })
-      /*
+      })*/
+
       getAreaMark().then(res => {
         res.data.forEach(el => {
           this.markSeriesData.push(el.meanMark)
           this.markLegendData.push(el.areaName)
         })
-      })*/
+      })
       /*
       getPhoneCount().then(res => {
         res.data.forEach(el => {
@@ -71,7 +71,7 @@ export default {
         })
       })*/
     },
-    /*
+
     reqAreaData() {
       getAreaCount().then(res => {
         this.areaCount = res.data
@@ -79,9 +79,12 @@ export default {
     },
     reqScoreData() {
       getScoreData().then(res => {
-        this.scoreData = res.data
+        this.scoreData = res.data[0].score_list
+        console.log(res.data[0].score_list)
+        this.oneScoreData = res.data[1].one_score_list
+        console.log(res.data[1])
       })
-    },*/
+    },
     myEcharts() {
       var myBar = this.$echarts.init(document.getElementById('hd_bar'))
       const optionBar = {
@@ -125,14 +128,15 @@ export default {
       const optionAreaCount = {
         title: {
           text: '各个区域的商铺总数',
-          left: 'center'
+          left: 'center',
+          top: '2%'
         },
         tooltip: {
           trigger: 'item'
         },
         legend: {
-          top: '5%',
-          left: 'center'
+          left: 'center',
+          bottom: '2%'
         },
         series: [
           {
@@ -170,16 +174,31 @@ export default {
       const optionScoreData = {
         title: {
           text: '评分分布',
-          left: 'center'
+          left: 'center',
+          top: '2%'
         },
         tooltip: {
           trigger: 'item'
         },
         legend: {
-          top: '5%',
+          bottom: '2%',
           left: 'center'
         },
         series: [
+          {
+            name: '分布',
+            type: 'pie',
+            selectedMode: 'single',
+            radius: ['20%', '35%'],
+            label: {
+              position: 'inner',
+              fontSize: 14
+            },
+            labelLine: {
+              show: false
+            },
+            data: this.oneScoreData
+          },
           {
             name: '评分分布',
             type: 'pie',
@@ -233,5 +252,10 @@ export default {
   right: 500px;
   box-shadow: 5px 10px 10px 5px #888888;
   border-radius: 10px;
+}
+.main {
+  div {
+    margin-bottom: 40px;
+  }
 }
 </style>

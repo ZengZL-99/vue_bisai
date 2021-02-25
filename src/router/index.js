@@ -78,14 +78,15 @@ export const constantRoutes = [
             path: 'common',
             name: 'common',
             component: () => import('@/views/visualMeituan/commonMeituan/index'),
-            meta: { title: '普通可视化', icon: 'el-icon-pie-chart' }
+            meta: { title: '商户信息可视化', icon: 'el-icon-pie-chart' }
           },
+          /*
           {
             path: 'hotspot',
             name: 'hotspot',
             component: () => import('@/views/visualMeituan/hotspotmapMeituan2/index'),
             meta: { title: '热点图可视化', icon: 'tree' }
-          },
+          },*/
           {
             path: 'businessModel',
             name: 'businessModel',
